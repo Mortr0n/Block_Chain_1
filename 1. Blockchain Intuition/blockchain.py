@@ -85,31 +85,57 @@ class Blockchain:
         return True
             
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-         
-        
-        
-        
-        
-        
-        
         
         
 # Part 2 - Mining the Blockchain
+
+# Creating a Web App
+app = Flask(__name__)
+
+# Creating a Blockchain
+blockchain = Blockchain()
+
+# Mining a new block
+# setting up endpoint for mining a block currently localhost:5000
+@app.route('/mine_block')
+def mine_block
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
