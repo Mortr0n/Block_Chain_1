@@ -96,7 +96,7 @@ app = Flask(__name__)
 blockchain = Blockchain()
 
 # Mining a new block
-# setting up endpoint for mining a block currently localhost:5000
+# setting up endpoint for mining a block currently logetcalhost:5000
 @app.route('/mine_block', methods=['Get'])
 def mine_block():
     previous_block = blockchain.get_previous_block()
@@ -113,43 +113,10 @@ def mine_block():
 
 # Getting the entire Blockchain
 @app.route('/get_chain', methods=['Get'])
-    def get_chain():
+def get_chain():
+    response = {'chain' : blockchain.chain,
+                'length': len(blockchain.chain)}
+    return jsonify(response), 200
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Running the app
+app.run(host = '0.0.0.0', port = 5000)
