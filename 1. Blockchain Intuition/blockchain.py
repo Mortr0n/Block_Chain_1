@@ -31,7 +31,7 @@ class Blockchain:
         # I think positive starting with 0 goes left to right and negative right to left
         return self.chain[-1]
     
-   def proof_of_work(self, previous_proof):
+    def proof_of_work(self, previous_proof):
        new_proof = 1
        check_proof = False
        while check_proof is False:
@@ -39,19 +39,19 @@ class Blockchain:
            # if it was symmetrical you would get the same hash every 2 blocks
            # hash_operation = hashlib.sha256(new_proof - previous_proof) this would be too simple but would work
            # this one is still pretty easy.  more challenging is better
-           hash_operation = haslib.sha256(str(new_proof**2 - previous_proof**2).encode()).hexdigest()
+           hash_operation = hashlib.sha256(str(new_proof**2 - previous_proof**2).encode()).hexdigest()
            if hash_operation[:4] == '0000':
                check_proof = True
            else:
                new_proof += 1
        return new_proof
    
-   def hash(self, block):
+    def hash(self, block):
        # turning the block key value pairs in to a json string using the json 
        # library dumps then encoding it so that the hash function will recognize it
        encoded_block = json.dumps(block, sort_keys = True).encode()
        # hashing the function using the haslib library then hexdigest turns to a hexadecimal string
-       return haslib.sha256(encoded_block).hexdigest()
+       return hashlib.sha256(encoded_block).hexdigest()
    
     
         #test
@@ -73,9 +73,9 @@ class Blockchain:
             proof = block['proof']
             # 3 check that the operation of our 2 proofs starts with 4 leading zeros this has to 
             # be the same operation as the hashing operation used in the proof_of_work
-            hash_operation = haslib.sha256(str(proof**2 - previous_proof**2).encode()).hexdigest()
+            hash_operation = hashlib.sha256(str(proof**2 - previous_proof**2).encode()).hexdigest()
             # if the hash_operation's 4 leading zeros are not equal to 4 zeros return false
-            if hash_operation[:4] != '0000'
+            if hash_operation[:4] != '0000':
                 return False
             # set previous block to current block
             previous_block = block
@@ -97,9 +97,23 @@ blockchain = Blockchain()
 
 # Mining a new block
 # setting up endpoint for mining a block currently localhost:5000
-@app.route('/mine_block')
-def mine_block
+@app.route('/mine_block', methods=['Get'])
+def mine_block():
+    previous_block = blockchain.get_previous_block()
+    previous_proof = previous_block['proof']
+    proof = blockchain.proof_of_work(previous_proof)
+    previous_hash = blockchain.hash(previous_block)
+    new_block = blockchain.create_block(proof, previous_hash)
+    response = {'message': 'Congratulations you just mined a Block!', 
+                'index' : new_block['index'],
+                'timestamp' : new_block['timestamp'],
+                'proof' : new_block['proof'],
+                'previous_hash' : new_block['previous_hash'] }
+    return jsonify(response), 200
 
+# Getting the entire Blockchain
+@app.route('/get_chain', methods=['Get'])
+    def get_chain():
 
 
 
